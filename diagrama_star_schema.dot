@@ -1,0 +1,71 @@
+digraph StarSchema {
+  graph [rankdir=LR, splines=ortho, nodesep=0.55, ranksep=1.15, pad=0.25, bgcolor="white", fontname="DejaVu Sans", label="Star Schema — Análise de Professores", labelloc=t, fontsize=20];
+  node [shape=plain, fontname="DejaVu Sans", fontsize=10];
+  edge [color="#64748b", penwidth=1.3, arrowsize=0.75, dir=forward, arrowtail=none, arrowhead=normal];
+
+  dim_professor [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#64748b">
+      <TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>dim_professor</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> professor_key</TD></TR>
+      <TR><TD ALIGN="LEFT">professor_id_origem</TD></TR>
+      <TR><TD ALIGN="LEFT">nome_professor</TD></TR>
+      <TR><TD ALIGN="LEFT">titulo</TD></TR>
+    </TABLE>
+  >];
+  dim_departamento [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#64748b">
+      <TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>dim_departamento</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> departamento_key</TD></TR>
+      <TR><TD ALIGN="LEFT">departamento_id_origem</TD></TR>
+      <TR><TD ALIGN="LEFT">nome_departamento</TD></TR>
+      <TR><TD ALIGN="LEFT">campus</TD></TR>
+      <TR><TD ALIGN="LEFT">professor_coordenador_id_origem</TD></TR>
+    </TABLE>
+  >];
+  dim_curso [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#64748b">
+      <TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>dim_curso</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> curso_key</TD></TR>
+      <TR><TD ALIGN="LEFT">curso_id_origem</TD></TR>
+      <TR><TD ALIGN="LEFT">nome_curso</TD></TR>
+      <TR><TD ALIGN="LEFT">nivel</TD></TR>
+    </TABLE>
+  >];
+  dim_disciplina [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#64748b">
+      <TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>dim_disciplina</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> disciplina_key</TD></TR>
+      <TR><TD ALIGN="LEFT">disciplina_id_origem</TD></TR>
+      <TR><TD ALIGN="LEFT">nome_disciplina</TD></TR>
+    </TABLE>
+  >];
+  dim_data [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6" COLOR="#64748b">
+      <TR><TD BGCOLOR="#2563eb"><FONT COLOR="white"><B>dim_data</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> data_key</TD></TR>
+      <TR><TD ALIGN="LEFT">data_completa</TD></TR>
+      <TR><TD ALIGN="LEFT">dia / mês / nome_mes</TD></TR>
+      <TR><TD ALIGN="LEFT">trimestre / ano</TD></TR>
+    </TABLE>
+  >];
+  fato [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="7" COLOR="#0f766e">
+      <TR><TD BGCOLOR="#0f766e"><FONT COLOR="white"><B>fato_ministracao</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> fato_key</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> professor_key</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> departamento_key</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> curso_key</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> disciplina_key</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> data_key</TD></TR>
+      <TR><TD ALIGN="LEFT">quantidade_ofertas</TD></TR>
+      <TR><TD ALIGN="LEFT">carga_horaria (opcional)</TD></TR>
+    </TABLE>
+  >];
+
+  { rank=same; dim_professor; dim_departamento; dim_curso; dim_disciplina; dim_data; }
+  dim_professor -> fato [label="1 : N", fontsize=9];
+  dim_departamento -> fato [label="1 : N", fontsize=9];
+  dim_curso -> fato [label="1 : N", fontsize=9];
+  dim_disciplina -> fato [label="1 : N", fontsize=9];
+  dim_data -> fato [label="1 : N", fontsize=9];
+}
